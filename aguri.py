@@ -30,10 +30,17 @@ parser.add_option(
     dest = 'cours',
 )
 
+parser.add_option(
+    '-s', '--sleep_second',
+    action = 'store',
+    type = 'int',
+    dest = 'sleep_sec',
+)
+
 parser.set_defaults(
     year = 2017,
     cours_id = 1,
-    sleep_sec = 30
+    sleep_sec = 5
 )
 
 options, args = parser.parse_args()
@@ -68,6 +75,11 @@ for master in master_list:
     print(title + " " + url + " " + filename)
 
     browser.get(url)
+
+    # CSSアニメーションが始まるサイトが多いので５秒ぐらいは待つ必要がある
+    time.sleep(sleep_sec)
+
+    # TODO 動画が始まるサイトは強制的にCLOSEする処理を入れる
 
     browser.save_screenshot(TARGET_DIR + "/" + filename)
 
