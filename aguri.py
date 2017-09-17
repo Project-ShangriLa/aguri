@@ -5,6 +5,7 @@ import os
 import datetime
 import json
 import requests
+from selenium import webdriver
 from optparse import OptionParser
 
 #python3 aguri.py -y 2016 -c 2
@@ -49,6 +50,13 @@ master_list = json.loads(result.text)
 
 create_time = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
 
+
+browser = webdriver.PhantomJS()
+
+browser.implicitly_wait(3)
+browser.set_window_size(1920, 1200)
+
+
 for master in master_list:
 
     title = master['title']
@@ -58,3 +66,11 @@ for master in master_list:
     filename = create_time + "_" + str(master['id']) + ".png"
 
     print(title + " " + url + " " + filename)
+
+    browser.get(url)
+
+    browser.save_screenshot(TARGET_DIR + "/" + filename)
+
+
+browser.quit()
+
